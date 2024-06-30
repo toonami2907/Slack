@@ -5,9 +5,10 @@ const app = express()
 
 app.use(express.json())
 app.use("/", (req, res)=>{
+    const clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     res.status(201).json({
         status: "success",
-        greeting:`hello welcome ${req.originalUrl}`
+        greeting:`hello welcome ${clientIp}`
     })
 })
 app.use("/api", SlackRoute)
