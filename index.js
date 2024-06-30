@@ -4,7 +4,12 @@ import SlackRoute from './route/Slack.route.js'
 const app = express()
 
 app.use(express.json())
-
+app.use("/", (req, res)=>{
+    res.status(201).json({
+        status: "success",
+        greeting:`hello welcome ${req.originalUrl}`
+    })
+})
 app.use("/api", SlackRoute)
 
 app.all("*", (req,res) => {
