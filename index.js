@@ -1,28 +1,31 @@
-import express from 'express'
-import axios from 'axios'
+import express from 'express';
+import axios from 'axios';
+import SlackRoute from './route/Slack.route.js';
 
-import SlackRoute from './route/Slack.route.js'
-import { configDotenv } from 'dotenv'
+const app = express();
+const PORT = 8080; // Use the same port number
 
-const app = express()
+app.use(express.json());
 
-app.use(express.json())
-app.use("/", (req, res)=>{
+// Default route
+app.get("/", (req, res) => {
     const clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    res.status(201).json({
+    res.status(200).json({
         status: "success",
-        greeting:`hello welcome ${clientIp}`
-    })
-})
-app.use("/api", SlackRoute)
+        greeting: `Hello, welcome ${clientIp}`
+    });
+});
 
-app.all("*", (req,res) => {
+// API route using SlackRoute
+app.use("/api", SlackRoute);
+
+// Handle all other routes
+app.all("*", (req, res) => {
     res.status(404).json({
-        message: `Can't find method ${req.method} on ${req.originalUrl} on this server!`
-    })
-    
-})
+        message: `Can't find ${req.method} method on ${req.originalUrl} on this server!`
+    });
+});
 
-app.listen(8080, () => {
-    console.log(`Serving on port 8080`);
-  });
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
