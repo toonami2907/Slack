@@ -3,7 +3,7 @@ import axios from 'axios';
 const router = express.Router()
 
 router.get("/hello" , async(req, res)=>{
-    const visitorName = req.query.visitor_name || 'Visitor';
+    const visitorName = req.query.visitor_name
     const clientIp = req.ip || '127.0.0.1';
 
     try {
