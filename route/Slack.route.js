@@ -1,9 +1,10 @@
-import express from 'express'
+import express from 'express';
 import axios from 'axios';
-const router = express.Router()
 
-router.get("/hello" , async(req, res)=>{
-    const visitorName = req.query.visitor_name
+const router = express.Router();
+
+router.get("/hello", async (req, res) => {
+    const visitorName = req.query.visitor_name || 'Visitor';
     const clientIp = req.ip || '127.0.0.1';
 
     try {
@@ -29,8 +30,6 @@ router.get("/hello" , async(req, res)=>{
         console.error('Error fetching weather data:', error);
         res.status(500).json({ error: 'Failed to fetch weather data' });
     }
-} )
+});
 
-
-
-export default router
+export default router;
